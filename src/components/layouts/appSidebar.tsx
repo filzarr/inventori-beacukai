@@ -36,6 +36,11 @@ const menus = [
         label: 'User',
         child: [
             {
+                label: 'Manajemen Pengguna',
+                link: '/manajemen-pengguna',
+                icon: 'Users'
+            },
+            {
                 label: 'Profile',
                 link: '/profile',
                 icon: 'UserRound',
@@ -46,7 +51,7 @@ const menus = [
                 link: '/mutasi-bahan-baku/bulanan',
                 icon: 'LockKeyhole',
                 children: null,
-            }
+            },
         ]
     },
     {
@@ -152,11 +157,11 @@ export function AppSidebar() {
                                     {menu.label}
                                 </SidebarGroupLabel>
                                 <SidebarGroupContent>
-                                    <SidebarMenu key={menu.label}>
+                                    <SidebarMenu key={menu.label + "3"}>
                                         {menu.child.map((child) => (
                                             child.children ? (
-                                                <Collapsible className="group/collapsible">
-                                                    <SidebarMenuItem key={child.label}>
+                                                <Collapsible key={`${menu.label}-${child.label}`} className="group/collapsible">
+                                                    <SidebarMenuItem key={`${menu.label}-${child.label}`}>
                                                         <CollapsibleTrigger asChild>
                                                             <SidebarMenuButton>
                                                                 <Book className="text-xl w-60" size={64} />

@@ -1,6 +1,5 @@
 import { AppSidebar } from "@/components/layouts/appSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import DashboardBreadcrumb from "./breadcrumb";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"; 
 import Image from "next/image";
 
 export default function Dashboard() {

@@ -1,9 +1,45 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/components/ui/label"; 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+    const router = useRouter();
+
+    const handleLogin = async () => {
+        setLoading(true);
+        setErrorMsg("");
+
+        try {
+            const res = await fetch("http://localhost:8000/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+            console.log(localStorage)
+            if (!res.ok) {
+                throw new Error(data.data.message || "Login failed");
+            }
+            document.cookie = `token=${data.data.access_token}; path=/; max-age=86400; SameSite=Lax`;
+
+            router.push("/dashboard");
+        } catch (err: any) {
+            setErrorMsg(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <div className=" min-h-svh min-w-svw flex justify-center items-center flex-col gap-16 bg-[#F2F6FC]">
             <Image src="/mdi-bg.png" alt="bg pt" width={320} height={300} />
@@ -11,16 +47,20 @@ export default function Login() {
                 <div className="flex justify-center items-center w-full py-4 bg-gray-200">
                     <h1 className=" text-xl font-semibold">Login</h1>
                 </div>
+                {errorMsg && (
+                    <div className="text-red-600 px-8 text-sm">{errorMsg}</div>
+                )}
+
                 <div className="flex flex-col gap-1.5 px-8">
-                    <Label htmlFor="username">Username</Label>
-                    <Input id="username" placeholder="Username" />
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="flex flex-col gap-1.5 px-8">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" placeholder="Password" />
+                    <Input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="px-8 w-full">
-                    <Button className="w-full">Login</Button>
+                    <Button className="w-full" onClick={handleLogin} disabled={loading}>{loading ? "Logging in..." : "Login"}</Button>
                 </div>
             </div>
         </div>

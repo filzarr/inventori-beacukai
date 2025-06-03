@@ -10,16 +10,11 @@ import { addDays, format } from "date-fns"
 import { Calendar } from "@/components/ui/calendar";
 import { FormLabel } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import MutasiBahanBakuBreadcrumb from "./breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar"; 
 export default function MutasiBahanBaku() {
     const [date, setDate] = React.useState<Date>()
     return (
-        <>
-            <div className="p-4 bg-white rounded flex gap-4 items-center">
-                <SidebarTrigger />
-                <MutasiBahanBakuBreadcrumb />
-            </div>
+        <> 
             <div className="bg-white p-6 rounded-xl shadow-md w-full min-h-[650px] space-y-6">
                 <h1 className="text-2xl font-bold text-gray-800">📊 Laporan Mutasi Bahan Baku</h1>
                 <div className="">
