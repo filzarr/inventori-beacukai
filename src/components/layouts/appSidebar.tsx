@@ -1,4 +1,9 @@
-import { Book, BookOpen, Calendar, ChevronRight, ChevronUp, Home, Icon, Inbox, NotepadText, Search, Settings, User2 } from "lucide-react"
+import {
+    Book,
+    ChevronRight,
+    ChevronUp,
+    User2,
+} from "lucide-react"
 
 import {
     Sidebar,
@@ -13,20 +18,38 @@ import {
     SidebarMenuItem,
     SidebarMenuSub,
     SidebarMenuSubItem,
-    SidebarProvider,
 } from "@/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 import Link from "next/link"
 import { LucideIcon } from "../ui/icons"
+type MenuItem = {
+  label: string
+  link: string
+  icon: keyof typeof import("lucide-react")
+  children?: MenuItem[] | null
+}
 
-const menus = [
+type MenuGroup = {
+  label: string
+  child: MenuItem[]
+}
+const menus: MenuGroup[] = [
     {
         label: 'Core',
         child: [
             {
                 label: 'Dashboard',
-                link: '/',
+                link: '/dashboard',
                 icon: 'Activity',
                 children: null,
             }
@@ -55,19 +78,82 @@ const menus = [
         ]
     },
     {
-        label: 'Pembatalan',
+        label: 'Master Data',
         child: [
             {
-                label: 'Pemasukan',
-                link: '/pembatalan-pemasukan',
-                icon: "NotepadText",
-                children: null,
+                label: 'Pembeli',
+                link: '/pembeli',
+                icon: 'Store'
             },
             {
-                label: 'Pengeluaran',
-                link: '/pembatalan-pengeluaran',
-                icon: "NotepadText",
-                children: null,
+                label: 'Penjual',
+                link: '/penjual',
+                icon: 'Gem'
+            },
+            {
+                label: 'Barang',
+                link: '/barang',
+                icon: 'PackageSearch'
+            },
+            {
+                label: 'Mata Uang',
+                link: '/mata-uang',
+                icon: 'CircleDollarSign'
+            },
+            {
+                label: 'Dokumen BC',
+                link: '/dokumen-bc',
+                icon: 'Book'
+            }, 
+        ]
+    },
+    {
+        label: "Kontrak",
+        child: [
+            {
+                label: "Pembelian",
+                link: '/kontrak/pembelian',
+                icon: 'ShoppingBasket'
+            },
+            {
+                label: "Penjualan",
+                link: '/kontrak/penjualan',
+                icon: 'ShoppingBag'
+            },
+            {
+                label: "Cetak Kontrak",
+                link: '/kontrak/cetak-kontrak',
+                icon: 'Users'
+            }
+        ]
+    },
+    {
+        label: "Inventory",
+        child: [
+            {
+                label: "Realisasi Pemasukan (Timbangan Masuk)",
+                link: '/realisasi-pemasukan',
+                icon: 'ClipboardPlus'
+            },
+            {
+                label: "Realisasi Pengeluaran (Timbangan Keluar)",
+                link: '/inventory/realisasi-pengeluaran',
+                icon: 'ClipboardMinus'
+            }
+        ]
+    },
+    {
+        label: "Transaksi",
+        child: [
+            {
+                label: "Pemasukan",
+                link: '/transaksi/pemasukan',
+                icon: 'ArrowLeftRight'
+            },
+            {
+                label: "Pengeluaran",
+                link: '/transaksi/pengeluaran',
+                icon: 'ArrowRightLeft'
             }
         ]
     },
@@ -76,59 +162,52 @@ const menus = [
         child: [
             {
                 label: 'Mutasi Bahan Baku',
-                link: null,
-                icon: "BookOpen",
-                children: [
-                    {
-                        label: 'Bulanan',
-                        link: '/mutasi-bahan-baku/bulanan'
-                    }
-                ]
+                link: '/laporan/mutasi-bahan-baku',
+                icon: "FileText",
+                children: null,
             },
             {
-                label: 'Mutasi Bahan Jadi',
-                link: null,
-                icon: "BookOpen",
-                children: [
-                    {
-                        label: 'Bulanan',
-                        link: '/mutasi-bahan-jadi/bulanan'
-                    }
-                ]
+                label: 'Mutasi Scrap',
+                link: '/laporan/mutasi-scrap',
+                icon: "FileText",
+                children: null,
             },
             {
-                label: 'Mutasi Barang Sisa dan Scrap',
-                link: null,
-                icon: "BookOpen",
-                children: [
-                    {
-                        label: 'Bulanan',
-                        link: '/mutasi-barang-sisa-dan-scrap/bulanan'
-                    }
-                ]
+                label: 'Mutasi WIP',
+                link: '/laporan/mutasi-wip',
+                icon: "FileText",
+                children: null,
             },
             {
-                label: 'Mutasi Mesin & Sparepart',
-                link: null,
-                icon: "BookOpen",
-                children: [
-                    {
-                        label: 'Bulanan',
-                        link: '/mutasi-mesin-&-sparepart/bulanan'
-                    }
-                ]
+                label: 'Mutasi Bahan Penolong',
+                link: '/laporan/mutasi-penolong',
+                icon: "FileText",
+                children: null,
             },
             {
-                label: 'Posisi WIP',
-                link: null,
-                icon: "BookOpen",
-                children: [
-                    {
-                        label: 'Bulanan',
-                        link: '/mutasi-mesin-&-sparepart/bulanan'
-                    }
-                ]
-            }
+                label: 'Mutasi Mesin/Sparepart',
+                link: '/laporan/mutasi-mesin-sparepart',
+                icon: "FileText",
+                children: null,
+            },
+            {
+                label: 'Pengeluaran',
+                link: '/laporan/pengeluaran',
+                icon: "FileText",
+                children: null,
+            },
+            {
+                label: 'Pemasukan',
+                link: '/laporan/pemasukan',
+                icon: "FileText",
+                children: null,
+            },
+            {
+                label: 'Mutasi Perjenis Dokumen',
+                link: '/laporan/mutasi-perjenis-dokumen',
+                icon: "FileText",
+                children: null,
+            },
         ]
     },
     {
@@ -149,75 +228,66 @@ export function AppSidebar() {
         <Sidebar>
             <SidebarHeader />
             <SidebarContent>
-                <SidebarMenu key={'content'}>
+                <SidebarMenu>
                     {menus.map((menu) => (
-                        <SidebarMenuItem key={menu.label}>
-                            <SidebarGroup>
-                                <SidebarGroupLabel className="font-semibold text-lg">
-                                    {menu.label}
-                                </SidebarGroupLabel>
-                                <SidebarGroupContent>
-                                    <SidebarMenu key={menu.label + "3"}>
-                                        {menu.child.map((child) => (
-                                            child.children ? (
-                                                <Collapsible key={`${menu.label}-${child.label}`} className="group/collapsible">
-                                                    <SidebarMenuItem key={`${menu.label}-${child.label}`}>
-                                                        <CollapsibleTrigger asChild>
-                                                            <SidebarMenuButton>
-                                                                <Book className="text-xl w-60" size={64} />
-                                                                <p className=" text-md text-black">{child.label}</p>
-                                                                <ChevronRight className="ml-auto transition-transform  transform group-data-[state=open]/collapsible:rotate-90
-                                    " />
-                                                            </SidebarMenuButton>
-                                                        </CollapsibleTrigger>
-                                                        <CollapsibleContent>
-                                                            <SidebarMenuSub>
-                                                                {child.children.map((granchild) => (
-                                                                    <SidebarMenuSubItem>
-                                                                        <Link href={granchild.link} className="min-w-full">
-                                                                            <SidebarMenuButton>
-                                                                                <span className="text-sm">{granchild.label}</span>
-                                                                            </SidebarMenuButton>
-                                                                        </Link>
-                                                                    </SidebarMenuSubItem>
-                                                                ))}
-
-                                                            </SidebarMenuSub>
-                                                        </CollapsibleContent>
-                                                    </SidebarMenuItem>
-                                                </Collapsible>
-                                            ) : (
-                                                <SidebarMenuItem key={child.label}>
-                                                    <SidebarMenuButton asChild>
-                                                        <Link href={child.link}>
-                                                            <LucideIcon name={child.icon} />
-                                                            <span>{child.label}</span>
-                                                        </Link>
+                        <SidebarGroup key={menu.label}>
+                            <SidebarGroupLabel className="font-semibold text-lg">
+                                {menu.label}
+                            </SidebarGroupLabel>
+                            <SidebarGroupContent>
+                                <SidebarMenu>
+                                    {menu.child.map((child) => (
+                                        child.children ? (
+                                            <Collapsible key={`${menu.label}-${child.label}`} className="group/collapsible">
+                                                <CollapsibleTrigger asChild>
+                                                    <SidebarMenuButton>
+                                                        <Book className="text-xl" />
+                                                        <span className="text-md text-black">{child.label}</span>
+                                                        <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                                                     </SidebarMenuButton>
-                                                </SidebarMenuItem>
-                                            )
-                                        ))}
-                                    </SidebarMenu>
-                                </SidebarGroupContent>
-                            </SidebarGroup>
-                        </SidebarMenuItem>
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent>
+                                                    <SidebarMenuSub>
+                                                        {child.children.map((grandchild) => (
+                                                            <SidebarMenuSubItem key={grandchild.label}>
+                                                                <Link href={grandchild.link} className="w-full">
+                                                                    <SidebarMenuButton>
+                                                                        <span className="text-sm">{grandchild.label}</span>
+                                                                    </SidebarMenuButton>
+                                                                </Link>
+                                                            </SidebarMenuSubItem>
+                                                        ))}
+                                                    </SidebarMenuSub>
+                                                </CollapsibleContent>
+                                            </Collapsible>
+                                        ) : (
+                                            <SidebarMenuItem key={child.label}>
+                                                <SidebarMenuButton asChild>
+                                                    <Link href={child.link} className="flex items-center gap-2">
+                                                        <LucideIcon name={child.icon} />
+                                                        <span>{child.label}</span>
+                                                    </Link>
+                                                </SidebarMenuButton>
+                                            </SidebarMenuItem>
+                                        )
+                                    ))}
+                                </SidebarMenu>
+                            </SidebarGroupContent>
+                        </SidebarGroup>
                     ))}
-
                 </SidebarMenu>
             </SidebarContent>
             <SidebarFooter className="bg-gray-100">
-                <SidebarMenu key={'footer'}>
-                    <SidebarMenuItem key={'user'}>
+                <SidebarMenu>
+                    <SidebarMenuItem>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <SidebarMenuButton>
                                     <User2 /> Username
-                                    <ChevronUp className="ml-auto " />
+                                    <ChevronUp className="ml-auto" />
                                 </SidebarMenuButton>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                className="w-[200px]"
-                            >
+                            <DropdownMenuContent className="w-[200px]">
                                 <DropdownMenuItem>
                                     <span>Account</span>
                                 </DropdownMenuItem>
@@ -235,5 +305,3 @@ export function AppSidebar() {
         </Sidebar>
     )
 }
-
-
