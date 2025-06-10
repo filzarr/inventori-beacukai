@@ -18,7 +18,7 @@ export default function Login() {
         setErrorMsg("");
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/login`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
