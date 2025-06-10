@@ -34,13 +34,13 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* {!token ? (
+        {!token ? (
           <main className=" bg-gray-100 flex-1 w-full overflow-hidden">
             <div className="p-2 flex flex-col gap-8">
               {children}
             </div>
           </main>
-        ) : ( */}
+        ) : (
           <SidebarProvider>
             <AppSidebar />
             <main className=" bg-gray-100 flex-1 w-full overflow-hidden">
@@ -50,7 +50,7 @@ export default async function RootLayout({
               </div>
             </main>
           </SidebarProvider>
-        {/* )} */}
+        )}
       </body>
     </html>
   );
