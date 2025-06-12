@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function pembeliCreatePage() {
     const [kode, setKode] = useState("");
     const [nama, setNama] = useState("");
+    const [satuan, setSatuan] = useState("");
     const [kategori, setKategori] = useState("");
     const [jumlah, setJumlah] = useState("");
     const router = useRouter();
@@ -19,8 +20,9 @@ export default function pembeliCreatePage() {
         const payload = {
             kode,
             nama,
+            satuan,
             kategori,
-            jumlah: Number(jumlah),
+            saldo_awal: Number(jumlah),
         };
 
         try {
@@ -45,6 +47,10 @@ export default function pembeliCreatePage() {
                     label="Nama Barang"
                     value={nama}
                     onChange={(e) => setNama(e.target.value)} />
+                <FormInput id="satuan"
+                    label="Satuan"
+                    value={satuan}
+                    onChange={(e) => setSatuan(e.target.value)} />
                 <div className="px-8 max-w-1/2">
                     <Select value={kategori} onValueChange={setKategori}>
                         <SelectTrigger className="w-full">
@@ -59,7 +65,7 @@ export default function pembeliCreatePage() {
                 </div>
 
                 <FormInput id="jumlah"
-                    label="Jumlah"
+                    label="Saldo Awal"
                     value={jumlah}
                     type="number"
                     onChange={(e) => setJumlah(e.target.value)} />

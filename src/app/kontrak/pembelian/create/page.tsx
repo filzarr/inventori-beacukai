@@ -24,8 +24,7 @@ interface Product {
 
 interface ContractProduct {
     kode_barang: string;
-    jumlah: number;
-    satuan: string;
+    jumlah: number; 
     harga_satuan: number;
     kode_mata_uang: string;
     nilai_barang_fog: number;
@@ -58,8 +57,7 @@ export default function KontrakPembelianCreatePage() {
             ...prev,
             {
                 kode_barang: "",
-                jumlah: 0,
-                satuan: "",
+                jumlah: 0, 
                 harga_satuan: 0,
                 kode_mata_uang: "",
                 nilai_barang_fog: 0,
@@ -218,7 +216,6 @@ export default function KontrakPembelianCreatePage() {
                         type="number"
                         onChange={(e) => updateItem(index, "jumlah", Number(e.target.value))}
                     />
-                    <FormInput id="satuan" label="Satuan" value={item.satuan} onChange={(e) => updateItem(index, "satuan", e.target.value)} />
                     <FormInput
                         id="hargaSatuan"
                         label="Harga Satuan"

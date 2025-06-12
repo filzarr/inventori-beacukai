@@ -158,6 +158,31 @@ const menus: MenuGroup[] = [
         ]
     },
     {
+        label: "Gudang",
+        child: [
+            {
+                label: "Bahan Baku",
+                link: '/gudang/bahan-baku',
+                icon: 'DatabaseBackup'
+            },
+            {
+                label: "Bahan Penolong",
+                link: '/gudang/bahan-penolong',
+                icon: 'DatabaseBackup'
+            },
+            {
+                label: "Mesin/Sparepart",
+                link: '/gudang/mesin-sparepart',
+                icon: 'DatabaseBackup'
+            },
+            {
+                label: "Barang Jadi",
+                link: '/gudang/barang-jadi',
+                icon: 'DatabaseBackup'
+            }
+        ]
+    },
+    {
         label: 'Laporan',
         child: [
             {

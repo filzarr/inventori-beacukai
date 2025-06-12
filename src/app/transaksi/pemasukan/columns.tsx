@@ -35,20 +35,4 @@ export const transaksiPemasukanColumns: ColumnDef<transaksiPemasukan>[] = [
     accessorKey: "no_kontrak",
     header: "Nomor Kontrak",
   },
-  {
-    accessorKey: "kategori_barang",
-    header: "Kategori Barang",
-  },
-  {
-    accessorKey: "kode_barang",
-    header: "Kode Barang",
-  },
-  {
-    accessorKey: "nama_barang",
-    header: "Nama Barang",
-  },
-  {
-    accessorKey: "jumlah",
-    header: "Jumlah Barang",
-  }
 ]

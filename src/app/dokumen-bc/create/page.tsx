@@ -12,16 +12,14 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils"; // jika belum ada, pastikan `cn` helper tersedia
 export default function pembeliCreatePage() {
     const [noDocument, setNoDocument] = useState("");
-    const [kategoribc, setKategoribc] = useState("");
-    const [kategoriBarang, setKategoriBarang] = useState("");
+    const [kategoribc, setKategoribc] = useState(""); 
     const [tanggal, setTanggal] = useState<Date | undefined>();
     const router = useRouter();
 
 
     const handleSubmit = async () => {
         const payload = {
-            kategori: kategoribc,
-            kategori_barang: kategoriBarang,
+            kategori: kategoribc, 
             no_document: noDocument,
             tanggal: tanggal,
         };
@@ -56,19 +54,7 @@ export default function pembeliCreatePage() {
                             <SelectItem value="BC 40">BC 40</SelectItem>
                         </SelectContent>
                     </Select>
-                </div>
-                <div className="px-8 max-w-1/2">
-                    <Select value={kategoriBarang} onValueChange={setKategoriBarang}>
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Pilih Kategori Barang" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="Bahan Baku">Bahan Baku</SelectItem>
-                            <SelectItem value="Bahan Penolong">Bahan Penolong</SelectItem>
-                            <SelectItem value="Mesin/Sparepart">Mesin/Sparepart</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+                </div> 
                 <div className="px-8 max-w-1/2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                         Tanggal Dokumen

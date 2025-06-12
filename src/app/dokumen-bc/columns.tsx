@@ -4,8 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 export type DocumentBc = {
   id: number
   no_document: string
-  kategori: string
-  kategori_barang: string
+  kategori: string 
   tanggal: Date
 }
 
@@ -22,11 +21,7 @@ export const documentBcColumns: ColumnDef<DocumentBc>[] = [
   {
     accessorKey: "kategori",
     header: "Kategori",
-  },
-  {
-    accessorKey: "kategori_barang",
-    header: "Kategori Barang",
-  },
+  }, 
   {
     accessorKey: "tanggal",
     header: "Tanggal",

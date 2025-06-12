@@ -191,6 +191,28 @@ export const deleteSaldoAwal = (id: string) =>
     method: "DELETE",
   });
 
+// Buyers
+export const getBuyers = (params = withPagination()) =>
+  apiFetch("/buyers", {}, params);
+export const getBuyer = (id: string) => apiFetch(`/buyers/${id}`);
+export const createBuyer = (data: any) =>
+  apiFetch("/buyers", { method: "POST", body: JSON.stringify(data) });
+export const updateBuyer = (id: string, data: any) =>
+  apiFetch(`/buyers/${id}`, { method: "PUT", body: JSON.stringify(data) });
+export const deleteBuyer = (id: string) =>
+  apiFetch(`/buyers/${id}`, { method: "DELETE" });
+
+// Ready Products
+export const getReadyProducts = (params = withPagination()) =>
+  apiFetch("/ready-products", {}, params);
+export const getReadyProduct = (id: string) => apiFetch(`/ready-products/${id}`);
+export const createReadyProduct = (data: any) =>
+  apiFetch("/ready-products", { method: "POST", body: JSON.stringify(data) });
+export const updateReadyProduct = (id: string, data: any) =>
+  apiFetch(`/ready-products/${id}`, { method: "PUT", body: JSON.stringify(data) });
+export const deleteReadyProduct = (id: string) =>
+  apiFetch(`/ready-products/${id}`, { method: "DELETE" });
+
 // LaporanMutasi
 export const getLaporanMutas = (params = withPagination()) =>
   apiFetch("/laporan-mutasi", {}, params);

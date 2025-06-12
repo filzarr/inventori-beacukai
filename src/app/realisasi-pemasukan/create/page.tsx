@@ -93,16 +93,11 @@ export default function IncomeInventoryCreatePage() {
     };
 
     const handleSubmit = async () => {
-        try {
-            const invRes = await createIncomeInventory({
-                no_kontrak: noKontrak,
-                kategori_barang :kategori,
-            });
-            const inventoryId = invRes.data.id;
+        try { 
 
             for (const item of items) {
                 await createIncomeInventoriesProduct({
-                    id_inventories: inventoryId,
+                    no_kontrak: noKontrak,
                     kode_barang: item.kode_barang,
                     saldo_awal: item.jumlah,
                     jumlah: item.jumlah_diterima,

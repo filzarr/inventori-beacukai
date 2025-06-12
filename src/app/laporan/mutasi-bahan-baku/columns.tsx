@@ -1,5 +1,7 @@
 // components/columns/user-columns.ts
 import { ColumnDef } from "@tanstack/react-table"
+import { Eye } from "lucide-react"
+import Link from "next/link"
 
 export type mutasiBahanBaku = {
     id: number
@@ -14,7 +16,6 @@ export type mutasiBahanBaku = {
     pemasukan: number
     penyesuaian: number
     stok_opname: number
-    stok_akhir: number
 }
 
 export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
@@ -22,22 +23,6 @@ export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
         accessorKey: "no",
         header: "No",
         cell: ({ row }) => row.index + 1,
-    },
-    {
-        accessorKey: "kode_dokumen",
-        header: "Kode Document BC",
-    },
-    {
-        accessorKey: "no_dokumen",
-        header: "Nomor Document BC",
-    },
-    {
-        accessorKey: "tanggal_dokumen",
-        header: "Tanggal Dokumen BC",
-    },
-    {
-        accessorKey: "no_kontrak",
-        header: "Nomor Kontrak",
     },
     {
         accessorKey: "kode_barang",
@@ -63,7 +48,7 @@ export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
         accessorKey: "pengeluaran",
         header: "Pengeluaran",
         cell: ({ row }) => {
-            
+
             return (
                 <span>0</span>
             )
@@ -73,9 +58,9 @@ export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
         accessorKey: "penyesuaian",
         header: "Penyesuaian",
         cell: ({ row }) => {
-            const selisih = Number(row.getValue("saldo_awal")) - Number(row.getValue("pemasukan"))
+            const selisih = Number(row.getValue("saldo_awal")) + Number(row.getValue("pemasukan"))
             return (
-                <span>{selisih}</span>
+                <span>0</span>
             )
         },
     },
@@ -86,5 +71,26 @@ export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
     {
         accessorKey: "stok_akhir",
         header: "Stok Akhir",
+        cell: ({ row }) => {
+            const stokAkhir = Number(row.getValue("stok_opname"))
+            return (
+                <span>{stokAkhir}</span>
+            )
+        },
+    },
+    {
+        accessorKey: "action",
+        header: "Action",
+        cell: ({ row }) => {
+            const kodeBarang = row.getValue("kode_barang")
+            return (
+                <div className="flex justify-center">
+                    <Link href={`/laporan/mutasi-bahan-baku/${kodeBarang}`} className="bg-yellow-300 px-1 rounded-4xl" >
+                        <Eye className=" text-white text-sm" width={18} />
+                    </Link>
+                </div>
+
+            )
+        }
     }
 ]
