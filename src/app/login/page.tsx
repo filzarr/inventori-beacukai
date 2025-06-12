@@ -27,7 +27,10 @@ export default function Login() {
             });
 
             const data = await res.json();
-            console.log(localStorage)
+            localStorage.setItem('name', data.data.name)
+            localStorage.setItem('email', data.data.email)
+            localStorage.setItem('role', data.data.role)
+            console.log(data)
             if (!res.ok) {
                 throw new Error(data.data.message || "Login failed");
             }

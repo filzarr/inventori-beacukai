@@ -71,7 +71,7 @@ const menus: MenuGroup[] = [
             },
             {
                 label: 'Ganti Password',
-                link: '/mutasi-bahan-baku/bulanan',
+                link: '/ganti-password',
                 icon: 'LockKeyhole',
                 children: null,
             },
