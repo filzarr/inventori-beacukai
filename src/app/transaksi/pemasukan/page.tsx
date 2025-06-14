@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { GenericTable } from "@/components/common/genericTable" 
 import { transaksiPemasukan, transaksiPemasukanColumns } from "./columns"
-import { getTransactionIncomes } from "../../../../lib/api/api"
+import { getContracts, getTransactions } from "../../../../lib/api/api"
 
 export default function transaksiPemasukanPage() {
     const [data, setData] = useState<transaksiPemasukan[]>([])
@@ -16,10 +16,11 @@ export default function transaksiPemasukanPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getTransactionIncomes({
+                const res = await getTransactions({
                     page: page,
                     paginate: paginate,
-                    q: filter
+                    q: filter,
+                    document: true,
                 })
                 console.log(res.data)
                 setData(res.data.items)

@@ -39,7 +39,7 @@ export default function IncomeInventoryCreatePage() {
         const fetchInitialData = async () => {
             try {
                 const [kontrakRes, documentRes] = await Promise.all([
-                    getContracts(),
+                    getContracts({document: true}),
                     getBcDocuments(),
                 ]);
                 setDocument(documentRes.data.items || []);

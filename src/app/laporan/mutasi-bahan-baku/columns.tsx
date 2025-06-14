@@ -43,6 +43,12 @@ export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
     {
         accessorKey: "pemasukan",
         header: "Pemasukan",
+         cell: ({ row }) => {
+
+            return (
+                <span className="flex flex-row items-center gap-4">{row.getValue("pemasukan")} <Link href={"/laporan/mutasi-bahan-baku/pemasukan/"+row.getValue("kode_barang")} className=""><Eye className="text-yellow-500" /></Link></span>
+            )
+        },
     },
     {
         accessorKey: "pengeluaran",
@@ -77,20 +83,5 @@ export const mutasiBahanBakuColumns: ColumnDef<mutasiBahanBaku>[] = [
                 <span>{stokAkhir}</span>
             )
         },
-    },
-    {
-        accessorKey: "action",
-        header: "Action",
-        cell: ({ row }) => {
-            const kodeBarang = row.getValue("kode_barang")
-            return (
-                <div className="flex justify-center">
-                    <Link href={`/laporan/mutasi-bahan-baku/${kodeBarang}`} className="bg-yellow-300 px-1 rounded-4xl" >
-                        <Eye className=" text-white text-sm" width={18} />
-                    </Link>
-                </div>
-
-            )
-        }
     }
 ]

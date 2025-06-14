@@ -50,3 +50,6 @@ export const createDocumentContract = (data: any) =>
     method: "POST",
     body: JSON.stringify(data),
   });
+
+  export const getTransactions = (params = contractsQuery()) =>
+  apiFetch("/contracts-transactions", {}, params);
