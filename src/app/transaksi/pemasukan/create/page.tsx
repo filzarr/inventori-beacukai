@@ -11,8 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { getBcDocuments, getContracts } from "../../../../../lib/api/api";
-import { createTransactionIncome } from "../../../../../lib/api/api";
+import { createDocumentContract, getBcDocuments, getContracts } from "../../../../../lib/api/api";
 
 interface ContractProduct {
     kode_barang: string;
@@ -56,7 +55,7 @@ export default function IncomeInventoryCreatePage() {
 
     const handleSubmit = async () => {
         try {
-            await createTransactionIncome({
+            await createDocumentContract({
                 no_kontrak: noKontrak,
                 no_document: noDocument,
             });
