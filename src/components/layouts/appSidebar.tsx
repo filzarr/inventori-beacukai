@@ -137,7 +137,7 @@ const menus: MenuGroup[] = [
             },
             {
                 label: "Realisasi Pengeluaran (Timbangan Keluar)",
-                link: '/inventory/realisasi-pengeluaran',
+                link: '/realisasi-pengeluaran',
                 icon: 'ClipboardMinus'
             }
         ]

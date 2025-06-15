@@ -12,11 +12,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { createContract, createContractProduct, getCurrencies, getProducts, getSupliers } from "../../../../../lib/api/api";
+import { createContract, createContractProduct, getCurrencies, getProducts, getReadyProducts, getSupliers } from "../../../../../lib/api/api";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
 interface Product {
     kode: string;
     nama: string;
@@ -24,7 +24,7 @@ interface Product {
 
 interface ContractProduct {
     kode_barang: string;
-    jumlah: number; 
+    jumlah: number;
     harga_satuan: number;
     kode_mata_uang: string;
     nilai_barang_fog: number;
@@ -41,7 +41,7 @@ interface mata_uang {
     kode: string
 }
 
-export default function KontrakPembelianCreatePage() {
+export default function KontrakPenjualanCreatePage() {
     const [noKontrak, setNoKontrak] = useState("");
     const [kategori, setKategori] = useState("");
     const [supliersId, setSupliearsId] = useState("");
@@ -57,7 +57,7 @@ export default function KontrakPembelianCreatePage() {
             ...prev,
             {
                 kode_barang: "",
-                jumlah: 0, 
+                jumlah: 0,
                 harga_satuan: 0,
                 kode_mata_uang: "",
                 nilai_barang_fog: 0,
@@ -85,6 +85,7 @@ export default function KontrakPembelianCreatePage() {
         try {
             const contractRes = await createContract({
                 no_kontrak: noKontrak,
+                kategori: "Penjualan",
                 supliers: supliersId,
                 tanggal: tanggal,
             });
@@ -108,8 +109,13 @@ export default function KontrakPembelianCreatePage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await getProducts();
-                setProducts(res.data.items || []);
+                if (kategori == "Barang Jadi") {
+                    const res = await getReadyProducts();
+                    setProducts(res.data.items || []);
+                } else {
+                    const res = await getProducts({ kategori: kategori });
+                    setProducts(res.data.items || []);
+                }
             } catch (err) {
                 console.error("Gagal fetch products:", err);
             }
@@ -133,11 +139,11 @@ export default function KontrakPembelianCreatePage() {
         fetchProducts();
         fetchSupliers();
         fetchMataUang();
-    }, []);
+    }, [kategori]);
 
     return (
         <div className="bg-white p-8 rounded w-full flex flex-col gap-8">
-            <div className="text-center text-xl font-semibold">Tambah Kontrak Pembelian</div>
+            <div className="text-center text-xl font-semibold">Tambah Kontrak Penjualan</div>
 
             <FormInput id="no_kontrak" label="No Kontrak" value={noKontrak} onChange={(e) => setNoKontrak(e.target.value)} />
             <div className="px-8 max-w-1/2">
@@ -149,6 +155,7 @@ export default function KontrakPembelianCreatePage() {
                         <SelectItem value="Bahan Baku">Bahan Baku</SelectItem>
                         <SelectItem value="Bahan Penolong">Bahan Penolong</SelectItem>
                         <SelectItem value="Mesin/Sparepart">Mesin/Sparepart</SelectItem>
+                        <SelectItem value="Barang Jadi">Barang Jadi</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

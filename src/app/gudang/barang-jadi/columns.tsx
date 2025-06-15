@@ -7,7 +7,7 @@ export type Products = {
     nama: string
     kategori: string
     satuan: string
-    saldo_awal: string
+    jumlah: string
 }
 
 export const productsColumns: ColumnDef<Products>[] = [
@@ -23,17 +23,13 @@ export const productsColumns: ColumnDef<Products>[] = [
     {
         accessorKey: "nama",
         header: "Nama Barang",
-    },
-    {
-        accessorKey: "kategori",
-        header: "Kategori Barang",
-    },
+    }, 
     {
         accessorKey: "satuan",
         header: "Satuan",
     },
     {
-        accessorKey: "saldo_awal",
-        header: "Saldo Awal",
+        accessorKey: "jumlah",
+        header: "Stok",
     }
 ]

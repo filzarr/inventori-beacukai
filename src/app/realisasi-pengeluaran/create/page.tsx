@@ -13,6 +13,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { createIncomeInventoriesProduct, createIncomeInventory, getContractProducts, getContracts, getSupliers } from "../../../../lib/api/api";
+import { createOutcomesInventoriesProduct } from "../../../../lib/api/outcomeInventoriesProducts";
 
 interface ContractProduct {
     kode_barang: string;
@@ -70,7 +71,7 @@ export default function IncomeInventoryCreatePage() {
                     page: 1,
                     paginate: 100,
                     noKontrak: noKontrak,
-                    kategori:"Pembelian",
+                    kategori:"Penjualan",
                     q: "", // tambahkan q karena required
                 });
                 const enrichedItems = (res.data.items || []).map((item: ContractProduct) => ({
@@ -97,7 +98,7 @@ export default function IncomeInventoryCreatePage() {
         try { 
 
             for (const item of items) {
-                await createIncomeInventoriesProduct({
+                await createOutcomesInventoriesProduct({
                     no_kontrak: noKontrak,
                     kode_barang: item.kode_barang,
                     saldo_awal: item.jumlah,
@@ -106,7 +107,7 @@ export default function IncomeInventoryCreatePage() {
             }
 
             alert("Data berhasil disimpan!");
-            router.push("/realisasi-pemasukan");
+            router.push("/realisasi-pengeluaran");
         } catch (err) {
             console.error(err);
             alert("Gagal menyimpan data pemasukan.");
@@ -115,7 +116,7 @@ export default function IncomeInventoryCreatePage() {
 
     return (
         <div className="bg-white p-8 rounded w-full flex flex-col gap-8">
-            <div className="text-center text-xl font-semibold">Tambah Pemasukan Inventori</div>
+            <div className="text-center text-xl font-semibold">Tambah Pengeluaran Inventori</div>
 
             <div className="px-8">
                 <Label>No Kontrak</Label>
