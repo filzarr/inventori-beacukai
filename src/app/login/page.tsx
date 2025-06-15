@@ -45,7 +45,7 @@ export default function Login() {
     };
     return (
         <div className=" min-h-svh min-w-svw flex justify-center items-center flex-col gap-16 bg-[#F2F6FC]">
-            <Image src="/mdi-bg.png" alt="bg pt" width={320} height={300} />
+            {/* <Image src="/mdi-bg.png" alt="bg pt" width={320} height={300} /> */}
             <div className="w-full max-w-1/3 shadow-xl flex pb-8 flex-col gap-6 rounded-lg overflow-hidden   bg-white border">
                 <div className="flex justify-center items-center w-full py-4 bg-gray-200">
                     <h1 className=" text-xl font-semibold">Login</h1>
