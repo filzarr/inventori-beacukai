@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layouts/appSidebar";
+import Navbar from "@/components/layouts/navbar";
+import type { NextRequest } from 'next/server'
 import { cookies } from "next/headers";
-import TokenRefresher from "@/components/common/TokenRefresher"; 
-import AuthenticatedLayout from "@/components/layouts/authenticatedLayout";
+import TokenRefresher from "@/components/common/TokenRefresher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +28,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-
+  const cookieStore = await cookies()
+  const token = cookieStore.get('token')?.value
   const content = (
     <>
       <TokenRefresher token={token} />
@@ -36,13 +38,24 @@ export default async function RootLayout({
       </main>
     </>
   );
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthenticatedLayout>{children}</AuthenticatedLayout>
+        {!token ? (
+          content
+        ) : (
+          <SidebarProvider>
+            <AppSidebar />
+            <main className=" bg-gray-100 flex-1 w-full overflow-hidden">
+              <Navbar />
+              <div className="p-2 flex flex-col gap-8">
+                {children}
+              </div>
+            </main>
+          </SidebarProvider>
+        )}
       </body>
     </html>
   );
