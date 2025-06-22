@@ -5,10 +5,11 @@ import {
     getCoreRowModel,
     getPaginationRowModel,
     useReactTable
-} from "@tanstack/react-table" 
+} from "@tanstack/react-table"
 import { GenericTable } from "@/components/common/genericTable"
-import { Products, productsColumns } from "./columns"  
+import { Products, productsColumns } from "./columns"
 import { getReadyProducts } from "../../../../lib/api/readyProducts"
+import { getProducts } from "../../../../lib/api/products"
 
 export default function barangPage() {
     const [data, setData] = useState<Products[]>([])
@@ -20,14 +21,15 @@ export default function barangPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getReadyProducts({
+                const res = await getProducts({
                     page: page,
                     paginate: paginate,
-                    q: filter
+                    q: filter,
+                    kategori: "Mesin/Sparepart",
                 })
                 console.log(res.data)
                 setData(res.data.items)
-                setPageCount(res.data.totalPages || 0) 
+                setPageCount(res.data.totalPages || 0)
             } catch (err) {
                 console.error("Failed to fetch supliers: pagepembeli", err)
             }
@@ -55,7 +57,7 @@ export default function barangPage() {
     })
 
     return (
-        <div className="bg-white p-8 rounded w-full"> 
+        <div className="bg-white p-8 rounded w-full">
             <GenericTable<Products>
                 data={data}
                 columns={productsColumns}

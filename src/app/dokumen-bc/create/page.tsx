@@ -12,14 +12,14 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils"; // jika belum ada, pastikan `cn` helper tersedia
 export default function pembeliCreatePage() {
     const [noDocument, setNoDocument] = useState("");
-    const [kategoribc, setKategoribc] = useState(""); 
+    const [kategoribc, setKategoribc] = useState("");
     const [tanggal, setTanggal] = useState<Date | undefined>();
     const router = useRouter();
 
 
     const handleSubmit = async () => {
         const payload = {
-            kategori: kategoribc, 
+            kategori: kategoribc,
             no_document: noDocument,
             tanggal: tanggal,
         };
@@ -48,13 +48,19 @@ export default function pembeliCreatePage() {
                             <SelectValue placeholder="Pilih Kategori BC" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="BC 23">BC 23</SelectItem>
-                            <SelectItem value="BC 27 In">BC 27 In</SelectItem>
-                            <SelectItem value="BC 262">BC 262</SelectItem>
-                            <SelectItem value="BC 40">BC 40</SelectItem>
+                            <SelectItem value="2.3">BC 2.3</SelectItem>
+                            <SelectItem value="2.5">BC 2.5</SelectItem>
+                            <SelectItem value="2.7">BC 2.7</SelectItem>
+                            <SelectItem value="2.61">BC 2.61</SelectItem>
+                            <SelectItem value="2.62">BC 2.62</SelectItem>
+                            <SelectItem value="40">BC 40</SelectItem>
+                            <SelectItem value="41">BC 41</SelectItem>
+                            <SelectItem value="30">BC 30</SelectItem>
+                            <SelectItem value="PPFT2">BC PPFT2</SelectItem>
                         </SelectContent>
+
                     </Select>
-                </div> 
+                </div>
                 <div className="px-8 max-w-1/2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                         Tanggal Dokumen

@@ -160,7 +160,7 @@ export default function KontrakPenjualanCreatePage() {
                 </Select>
             </div>
             <div className="px-8">
-                <Label>Pilih Suplier</Label>
+                <Label>Pilih Pembeli</Label>
                 <Select value={supliersId} onValueChange={setSupliearsId}>
                     <SelectTrigger><SelectValue placeholder="Pilih kode barang" /></SelectTrigger>
                     <SelectContent>
