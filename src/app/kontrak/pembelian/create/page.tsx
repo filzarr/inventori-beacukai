@@ -58,6 +58,7 @@ export default function KontrakPembelianCreatePage() {
             {
                 kode_barang: "",
                 jumlah: 0, 
+                kategori: kategori,
                 harga_satuan: 0,
                 kode_mata_uang: "",
                 nilai_barang_fog: 0,
@@ -86,6 +87,7 @@ export default function KontrakPembelianCreatePage() {
             const contractRes = await createContract({
                 no_kontrak: noKontrak,
                 supliers: supliersId,
+                kategori: 'Pembelian',
                 tanggal: tanggal,
             });
             const kontrakId = contractRes.id;
