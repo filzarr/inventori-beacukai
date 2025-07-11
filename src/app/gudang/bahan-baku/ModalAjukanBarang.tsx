@@ -12,6 +12,7 @@ import { useState, useEffect } from "react"
 import { Products } from "./columns"
 import { createTransferProduct } from "../../../../lib/api/transfers_products"
 import { useRouter } from "next/navigation"
+import { createProductsMovement } from "../../../../lib/api/productsMovement"
 interface Props {
   open: boolean
   onClose: () => void
@@ -59,7 +60,7 @@ export default function ModalAjukanBarang({ open, onClose, selectedItems, onSubm
     try {
       for (const item of result) {
         console.log(item)
-        await createTransferProduct(item)
+        await createProductsMovement(item)
       }
       alert("Pengajuan berhasil dikirim.")
       onSubmit(result)

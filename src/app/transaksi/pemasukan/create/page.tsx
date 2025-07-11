@@ -12,7 +12,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { createDocumentContract, getBcDocuments, getContracts } from "../../../../../lib/api/api";
-
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { FormInput } from "@/components/common/formInput";
 interface ContractProduct {
     kode_barang: string;
     nama_barang: string;
@@ -28,9 +32,16 @@ interface KontrakOption {
 interface document {
     no_document: string;
 }
+
+interface document_bc {
+    kode_document: string
+}
 export default function IncomeInventoryCreatePage() {
-    const [noKontrak, setNoKontrak] = useState("");
+    const [noKontrak, setNoKontrak] = useState(""); 
+    const [kodeDocumentBc, setKodeDocumentBc] = useState("");
     const [noDocument, setNoDocument] = useState("");
+    const [documentBc, setDocumentBc] = useState<document_bc[]>([]);
+    const [tanggal, setTanggal] = useState<Date | undefined>();
     const [document, setDocument] = useState<document[]>([]);
     const [kontrakOptions, setKontrakOptions] = useState<KontrakOption[]>([]);
     const router = useRouter();
@@ -39,7 +50,7 @@ export default function IncomeInventoryCreatePage() {
         const fetchInitialData = async () => {
             try {
                 const [kontrakRes, documentRes] = await Promise.all([
-                    getContracts({document: true}),
+                    getContracts({ document: true }),
                     getBcDocuments(),
                 ]);
                 setDocument(documentRes.data.items || []);
@@ -48,6 +59,17 @@ export default function IncomeInventoryCreatePage() {
                 console.error("Failed to fetch initial data:", err);
             }
         };
+
+        const fetchDocumentBc = async () => {
+            try {
+                const res = await getBcDocuments();
+                setDocumentBc(res.data.items || []);
+                console.log(documentBc)
+            } catch (err) {
+                console.log("Gagal Fetch Document", err)
+            }
+        }
+        fetchDocumentBc();
         fetchInitialData();
     }, []);
 
@@ -57,7 +79,8 @@ export default function IncomeInventoryCreatePage() {
         try {
             await createDocumentContract({
                 no_kontrak: noKontrak,
-                no_document: noDocument,
+                no_document: kodeDocumentBc,
+                tanggal_document: tanggal
             });
 
             alert("Data berhasil disimpan!");
@@ -84,17 +107,46 @@ export default function IncomeInventoryCreatePage() {
                 </Select>
             </div>
             <div className="px-8">
-                <Label>Nomor Document</Label>
-                <Select value={noDocument} onValueChange={setNoDocument}>
-                    <SelectTrigger><SelectValue placeholder="Pilih No Document" /></SelectTrigger>
+                <Label>Pilih Document BC</Label>
+                <Select value={kodeDocumentBc} onValueChange={setKodeDocumentBc}>
+                    <SelectTrigger><SelectValue placeholder="Pilih kode document" /></SelectTrigger>
                     <SelectContent>
-                        {document.map(k => (
-                            <SelectItem key={k.no_document} value={k.no_document}>{k.no_document}</SelectItem>
+                        {documentBc.map((p) => (
+                            <SelectItem key={p.kode_document} value={p.kode_document}>{p.kode_document}</SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
             </div>
-
+            <FormInput id="nodocument"
+                label="Nomor Document"
+                value={noDocument}
+                onChange={(e) => setNoDocument(e.target.value)} />
+            <div className="px-8 max-w-1/2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tanggal Document Bc
+                </label>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            className={cn(
+                                "w-full justify-start text-left font-normal",
+                                !tanggal && "text-muted-foreground"
+                            )}
+                        >
+                            {tanggal ? format(tanggal, "PPP") : "Pilih tanggal"}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                            mode="single"
+                            selected={tanggal}
+                            onSelect={setTanggal}
+                            initialFocus
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
 
             <div className="px-8">
                 <Button onClick={handleSubmit}>Submit</Button>

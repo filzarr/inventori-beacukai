@@ -12,18 +12,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { createIncomeInventoriesProduct, createIncomeInventory, getContractProducts, getContracts, getSupliers } from "../../../../lib/api/api";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-
-
+import { createIncomeInventoriesProduct, createIncomeInventory, getContractProducts, getContracts, getContractsNotRequired, getSupliers } from "../../../../lib/api/api"; 
 interface ContractProduct {
     kode_barang: string;
     nama_barang: string;
     stok: number;
     jumlah: number;
+    lokasi: string;
     jumlah_diterima: number;
 }
 
@@ -55,7 +50,7 @@ export default function IncomeInventoryCreatePage() {
         const fetchInitialData = async () => {
             try {
                 const [kontrakRes, suplierRes] = await Promise.all([
-                    getContracts({ document: true }),
+                    getContractsNotRequired({ document: true }),
                     getSupliers(),
                 ]);
                 setKontrakOptions(kontrakRes.data.items || []);
@@ -97,6 +92,13 @@ export default function IncomeInventoryCreatePage() {
             return updated;
         });
     };
+    const handleChangeLokasi = (index: number, value: string) => {
+        setItems((prev) => {
+            const updated = [...prev];
+            updated[index].lokasi = value;
+            return updated;
+        });
+    };
 
     const handleSubmit = async () => {
         try {
@@ -106,6 +108,7 @@ export default function IncomeInventoryCreatePage() {
                     no_kontrak: noKontrak,
                     kode_barang: item.kode_barang,
                     saldo_awal: item.jumlah,
+                    lokasi: item.lokasi,
                     tanggal: tanggal,
                     jumlah: item.jumlah_diterima,
                 });
@@ -121,9 +124,9 @@ export default function IncomeInventoryCreatePage() {
 
     return (
         <div className="bg-white p-8 rounded w-full flex flex-col gap-8">
-            <div className="text-center text-xl font-semibold">Tambah Pemasukan Inventori</div>
+            <div className="text-center text-xl font-semibold">Tambah Realisasi Pemasukan Inventori</div>
 
-            <div className="px-8">
+            <div className="px-8 flex flex-col gap-4">
                 <Label>No Kontrak</Label>
                 <Select value={noKontrak} onValueChange={setNoKontrak}>
                     <SelectTrigger><SelectValue placeholder="Pilih No Kontrak" /></SelectTrigger>
@@ -133,67 +136,36 @@ export default function IncomeInventoryCreatePage() {
                         ))}
                     </SelectContent>
                 </Select>
-            </div>
-
-            <div className="px-8">
-                <Label>Kategori</Label>
-                <Select value={kategori} onValueChange={setKategori}>
-                    <SelectTrigger><SelectValue placeholder="Pilih Kategori Produk" /></SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="Bahan Baku">Bahan Baku</SelectItem>
-                        <SelectItem value="Bahan Penolong">Bahan Penolong</SelectItem>
-                        <SelectItem value="Mesin/Sparepart">Mesin/Sparepart</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="px-8 max-w-1/2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tanggal Kontrak
-                </label>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            className={cn(
-                                "w-full justify-start text-left font-normal",
-                                !tanggal && "text-muted-foreground"
-                            )}
-                        >
-                            {tanggal ? format(tanggal, "PPP") : "Pilih tanggal"}
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                        <Calendar
-                            mode="single"
-                            selected={tanggal}
-                            onSelect={setTanggal}
-                            initialFocus
-                        />
-                    </PopoverContent>
-                </Popover>
-            </div>
-            <div className="">
-                <h2 className="text-lg px-8 font-semibold mt-6 mb-2">Daftar Barang</h2>
-                {items.map((item, index) => (
-                    <div key={index} className="grid grid-cols-5 gap-2 mb-4">
-                        <FormInput className="max-w-full" id="kodeBarang" onChange={() => { }} label="Kode Barang" value={item.kode_barang} disabled />
-                        <FormInput className="max-w-full" id="namaBarang" onChange={() => { }} label="Nama Barang" value={item.nama_barang} disabled />
-                        <FormInput className="max-w-full" id="stok" label="Stok" onChange={() => { }} value={item.stok.toString()} disabled />
-                        <FormInput className="max-w-full" id="jumlahKontrak" label="Jumlah Kontrak" onChange={() => { }} value={item.jumlah.toString()} disabled />
-                        <FormInput className="max-w-full" id="jumlahDiterima"
-                            label="Jumlah Diterima"
-                            type="number"
-                            value={item.jumlah_diterima.toString()}
-                            onChange={(e) => handleChangeJumlahDiterima(index, Number(e.target.value))}
-                        />
+            </div> 
+            {noKontrak !== "" && (
+                <>
+                    <div className="">
+                        <h2 className="text-lg px-8 font-semibold mt-6 mb-2">Daftar Barang</h2>
+                        {items.map((item, index) => (
+                            <div key={index} className="grid grid-cols-7 mb-4 items-center">
+                                <FormInput className="max-w-full" id="kodeBarang" onChange={() => { }} label="Kode Barang" value={item.kode_barang} disabled />
+                                <FormInput className="max-w-full" id="namaBarang" onChange={() => { }} label="Nama Barang" value={item.nama_barang} disabled />
+                                <FormInput className="max-w-full" id="stok" label="Stok" onChange={() => { }} value={item.stok.toString()} disabled />
+                                <FormInput className="max-w-full" id="jumlahKontrak" label="Jumlah Kontrak" onChange={() => { }} value={item.jumlah.toString()} disabled />
+                                <FormInput className="max-w-full col-span-2" id="lokasiPenyimpanan" label="Lokasi Penyimpanan" onChange={(e) => handleChangeLokasi(index, e.target.value)} value={item.lokasi} />
+                                <FormInput className="max-w-full" id="jumlahDiterima"
+                                    label="Jumlah Diterima"
+                                    type="number"
+                                    value={item.jumlah_diterima.toString()}
+                                    onChange={(e) => handleChangeJumlahDiterima(index, Number(e.target.value))}
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
 
 
-            <div className="px-8">
-                <Button onClick={handleSubmit}>Submit</Button>
-            </div>
+                    <div className="px-8">
+                        <Button onClick={handleSubmit}>Submit</Button>
+                    </div>
+                </>
+            )
+            }
+
         </div>
     );
 }

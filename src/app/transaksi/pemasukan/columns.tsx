@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table"
 
 export type transaksiPemasukan = {
   id: number
-  kode_document: string
+  kategori: string
   no_document: string
   tanggal_document: string
   no_kontrak: string
@@ -20,12 +20,12 @@ export const transaksiPemasukanColumns: ColumnDef<transaksiPemasukan>[] = [
     cell: ({ row }) => row.index + 1,
   },
   {
-    accessorKey: "kode_document",
-    header: "Kode Document BC",
+    accessorKey: "kategori",
+    header: "Kategori Document BC",
   },
   {
-    accessorKey: "no_document",
-    header: "Nomor Document BC",
+    accessorKey: "kode_document",
+    header: "Kode Document BC",
   },
   {
     accessorKey: "tanggal_document",

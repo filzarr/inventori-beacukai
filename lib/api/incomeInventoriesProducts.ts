@@ -1,8 +1,26 @@
 import { apiFetch, withPagination } from "./api";
 
+export const incomeinventoriesquery = (
+  page = 1,
+  paginate = 100,
+  q = "",
+  full?: boolean
+) => {
+  const params: Record<string, any> = {
+    page,
+    paginate,
+    q,
+    full
+  };
+
+  if (full !== undefined) {
+    params.full = full;
+  }
+  return params;
+};
 
 // Income Inventories Products
-export const getIncomeInventoriesProducts = (params = withPagination()) =>
+export const getIncomeInventoriesProducts = (params = incomeinventoriesquery()) =>
   apiFetch("/income-inventories-products", {}, params);
 export const getIncomeInventoriesProduct = (id: string) =>
   apiFetch(`/income-inventories-products/${id}`);

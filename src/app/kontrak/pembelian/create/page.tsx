@@ -12,7 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { createContract, createContractProduct, getCurrencies, getProducts, getSupliers } from "../../../../../lib/api/api";
+import { createContract, createContractProduct, getBcDocuments, getCurrencies, getProducts, getSupliers } from "../../../../../lib/api/api";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
@@ -40,11 +40,11 @@ interface mata_uang {
     id: string
     kode: string
 }
-
 export default function KontrakPembelianCreatePage() {
     const [noKontrak, setNoKontrak] = useState("");
     const [kategori, setKategori] = useState("");
     const [supliersId, setSupliearsId] = useState("");
+    const [kodeDocumentBc, setKodeDocumentBc] = useState("");
     const [tanggal, setTanggal] = useState<Date | undefined>();
     const [products, setProducts] = useState<Product[]>([]);
     const [items, setItems] = useState<ContractProduct[]>([]);
@@ -86,7 +86,7 @@ export default function KontrakPembelianCreatePage() {
         try {
             const contractRes = await createContract({
                 no_kontrak: noKontrak,
-                supliers: supliersId,
+                supliers: supliersId, 
                 kategori: 'Pembelian',
                 tanggal: tanggal,
             });
@@ -107,7 +107,7 @@ export default function KontrakPembelianCreatePage() {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { 
         const fetchProducts = async () => {
             try {
                 const res = await getProducts();
@@ -131,7 +131,7 @@ export default function KontrakPembelianCreatePage() {
             } catch (err) {
                 console.error("Gagal fetch currencies:", err);
             }
-        };
+        }; 
         fetchProducts();
         fetchSupliers();
         fetchMataUang();

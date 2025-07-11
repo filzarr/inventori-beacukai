@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { GenericTable } from "@/components/common/genericTable" 
-import { mutasiBahanBaku, mutasiBahanBakuColumns } from "./columns"
-import { getLaporanMutasi } from "../../../../lib/api/laporan"
+import { mutasiBahanBaku, mutasiBahanBakuColumns } from "./columns" 
+import { getLaporanMutasi } from "../../../../../lib/api/laporan"
 
 export default function laporanMutasiPage() {
     const [data, setData] = useState<mutasiBahanBaku[]>([])
@@ -19,8 +19,7 @@ export default function laporanMutasiPage() {
                 const res = await getLaporanMutasi({
                     page: page,
                     paginate: paginate,
-                    q: filter,
-                    kategori: "Bahan Baku"
+                    q: filter
                 })
                 console.log(res.data)
                 setData(res.data.items)

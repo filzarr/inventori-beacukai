@@ -53,3 +53,6 @@ export const createDocumentContract = (data: any) =>
 
   export const getTransactions = (params = contractsQuery()) =>
   apiFetch("/contracts-transactions", {}, params);
+
+  export const getContractsNotRequired = (params = contractsQuery()) =>
+  apiFetch("/contracts-not-required", {}, params);

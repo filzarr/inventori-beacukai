@@ -19,7 +19,8 @@ export default function realisasiPemasukanPage() {
                 const res = await getIncomeInventoriesProducts({
                     page: page,
                     paginate: paginate,
-                    q: filter
+                    q: filter,
+                    full: true,
                 })
                 console.log(res.data)
                 setData(res.data.items)

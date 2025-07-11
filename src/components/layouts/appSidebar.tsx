@@ -179,6 +179,41 @@ const menus: MenuGroup[] = [
                 label: "Barang Jadi",
                 link: '/gudang/barang-jadi',
                 icon: 'DatabaseBackup'
+            },
+            {
+                label: "Produksi",
+                link: '/gudang/produksi',
+                icon: 'DatabaseBackup'
+            }
+        ]
+    },
+    {
+        label: "Permintaan",
+        child: [
+            {
+                label: "Bahan Baku",
+                link: '/permintaan/bahan-baku',
+                icon: 'GitPullRequest'
+            },
+            {
+                label: "Bahan Penolong",
+                link: '/gudang/bahan-penolong',
+                icon: 'GitPullRequest'
+            },
+            {
+                label: "Mesin/Sparepart",
+                link: '/gudang/mesin-sparepart',
+                icon: 'GitPullRequest'
+            },
+            {
+                label: "Barang Jadi",
+                link: '/gudang/barang-jadi',
+                icon: 'GitPullRequest'
+            },
+            {
+                label: "Produksi",
+                link: '/gudang/produksi',
+                icon: 'GitPullRequest'
             }
         ]
     },
